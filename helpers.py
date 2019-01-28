@@ -38,7 +38,7 @@ def standardize_input(image, width, height):
     
     # Resize image and pre-process so that all "standard" images are the same size
     # cv2.resize
-    standard_im = none
+    standard_im = cv2.resize(image,(width, height))
     
     return standard_im
 
@@ -50,6 +50,12 @@ def standardize_input(image, width, height):
 def encode(label):
         
     numerical_val = 0
+    
+    if label == "day":
+        numerical_val = 1
+        
+    elif label == "night":
+        numerical_val = 0
     
     return numerical_val
 
@@ -64,10 +70,13 @@ def standardize(image_list):
     for item in image_list:
         
         # Standardize the image
+        standardized_img = standardize_input(item[0],1100,600)
         
         # Create a numerical label
-        
+        num_label = encode(item[1])
+    
         # Append the image, and it's one hot encoded label to the full, processed list of image data 
+        standard_list.append((standardized_img, num_label))
         
         
     return standard_list
